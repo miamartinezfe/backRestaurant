@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reservas")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.POST)
 public class ReservaRest {
 
     @Autowired
@@ -36,7 +37,7 @@ public class ReservaRest {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/confirm/{id}")
     private ResponseEntity<Reserva> confirmReserva(@PathVariable("id") Long id) {
         try {
             Reserva reserva = reservaService.getById(id);
@@ -46,6 +47,26 @@ public class ReservaRest {
             reserva.setState(Reserva.State.CONFIRMADO);
             reservaService.save(reserva);
             return ResponseEntity.ok(reserva);
+        } catch (Exception error) {
+            System.out.println(error.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    private ResponseEntity<Reserva> updateReserva(@RequestBody Reserva reserva, @PathVariable("id") Long id) {
+        try {
+            Reserva exist = reservaService.getById(id);
+            if (exist == null) {
+                throw new RuntimeException("La reserva no existe");
+            }
+            exist.setReservationDate(reserva.getReservationDate());
+            exist.setReservationType(reserva.getReservationType());
+            exist.setState(reserva.getState());
+            exist.setPeople(reserva.getPeople());
+            exist.setDescriptionObservations(reserva.getDescriptionObservations());
+            reservaService.save(exist);
+            return ResponseEntity.ok(exist);
         } catch (Exception error) {
             System.out.println(error.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

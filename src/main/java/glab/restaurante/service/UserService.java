@@ -76,6 +76,16 @@ public class UserService implements UserRepository {
         return Optional.empty();
     }
 
+    public User findByEmail(String email) {
+        List<User> all = findAll();
+        for (User user : all){
+            if (user.getEmail().equals(email)){
+                return user;
+            }
+        }
+        return null;
+    }
+
     @Override
     public <S extends User> List<S> findAll(Example<S> example) {
         return null;
