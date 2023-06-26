@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.POST)
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.PUT)
 public class UserRest {
     @Autowired
     private UserService userService;
@@ -79,7 +79,7 @@ public class UserRest {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<User> updateuser(@RequestBody User user, @PathVariable("id") Long userId) {
+    private ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long userId) {
         try {
             User exist = userService.getById(userId);
             if (exist == null) {

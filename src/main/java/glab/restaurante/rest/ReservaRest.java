@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reservas")
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.POST)
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = RequestMethod.PUT)
 public class ReservaRest {
 
     @Autowired
@@ -62,7 +62,6 @@ public class ReservaRest {
             }
             exist.setReservationDate(reserva.getReservationDate());
             exist.setReservationType(reserva.getReservationType());
-            exist.setState(reserva.getState());
             exist.setPeople(reserva.getPeople());
             exist.setDescriptionObservations(reserva.getDescriptionObservations());
             reservaService.save(exist);
